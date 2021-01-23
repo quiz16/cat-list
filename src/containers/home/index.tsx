@@ -2,11 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import {
   Form,
+  Row,
+  Col,
+  Button,
 } from 'react-bootstrap';
 import {
   fetchBreed,
   search,
 } from 'services/cat';
+import Card from 'components/card';
 import {
   Breed,
   Cat,
@@ -53,8 +57,15 @@ const Home = (props: RouteComponentProps) => {
     ),
   );
 
+  const renderCatList = () => catList.map(
+    (cat: Cat) => (
+      <Card {...cat} />
+    ),
+  );
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
+    setCatList([]);
     setSelectedBreed(value);
     if (value !== 'noop') {
       searchCats(value);
@@ -71,6 +82,10 @@ const Home = (props: RouteComponentProps) => {
           { renderBreedList() }
         </Form.Control>
       </Form.Group>
+      <Row>
+        { renderCatList() }
+        { !catList.length && (<Col xs="12">No cats available</Col>)}
+      </Row>
     </div>
   );
 };
