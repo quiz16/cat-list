@@ -43,7 +43,12 @@
       ],
       "@typescript-eslint/explicit-module-boundary-types": "off",
       "react/jsx-one-expression-per-line": "off",
-      "no-use-before-define":"off"
+      "no-use-before-define":"off",
+      "quotes": ["error", "single"],
+      "react/jsx-props-no-spreading": "off",
+      "no-unused-vars": "off",
+      "@typescript-eslint/no-unused-vars": "warn",
+      "react/no-unused-prop-types": "off"
     },
     "settings": {
         "import/resolver": {
