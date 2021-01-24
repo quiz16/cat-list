@@ -45,7 +45,7 @@ const Home = (props: RouteComponentProps) => {
     ...initialState,
     breedList: [], // not included in initialState to prevent reset after selecting new breed
   });
-  const [{ alert }, dispatch] = UseStateValue();
+  const [, dispatch] = UseStateValue();
   /* trigger dispatch to toggle alert */
   const triggerAlert = (value: boolean) => dispatch({
     type: Constants.TOGGLE_ALERT,
@@ -91,11 +91,6 @@ const Home = (props: RouteComponentProps) => {
         page: pageValue,
       });
       const allowedCount = headers['pagination-count'] - catValue.length;
-      setState((prevState: HomeState) => ({
-        ...prevState,
-        loadLabel: 'Load more',
-        isDisableLoad: false,
-      }));
       let listResult = catValue;
       let hideBtn = hideBtnValue;
       /* check how many values allowed to be render in card */
@@ -103,12 +98,15 @@ const Home = (props: RouteComponentProps) => {
         const sliceResult = data.slice(0, allowedCount);
         listResult = [...listResult, ...sliceResult.map(({ id, url }: Cat) => ({ id, url }))];
       } else if (allowedCount <= 0 && pageValue !== 1) {
+        /* hide the button if user request another search */
         hideBtn = true;
       }
       setState((prevState: HomeState) => ({
         ...prevState,
         hideLoadBtn: hideBtn,
         catList: listResult,
+        loadLabel: 'Load more',
+        isDisableLoad: false,
       }));
       triggerAlert(false);
     } catch (e) {

@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  Col,
   Card,
   Button,
 } from 'react-bootstrap';

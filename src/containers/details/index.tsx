@@ -11,7 +11,7 @@ import {
 const Details = (props: RouteComponentProps) => {
   const { match: { params: { id } } } = props;
   const [catDetails, setCatDetails] = useState<CatDetails>({});
-  const [{ alert }, dispatch] = UseStateValue();
+  const [, dispatch] = UseStateValue();
 
   /* trigger dispatch to toggle alert */
   const triggerAlert = (value: boolean) => dispatch({
