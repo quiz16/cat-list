@@ -7,6 +7,7 @@ import {
 import {
   Cat,
 } from 'types';
+import './styles.scss';
 
 const CardComponent = ({ url, id }: Cat) => (
   <Col md="3" sm="6" xs="12">
