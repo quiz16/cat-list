@@ -16,6 +16,8 @@ import {
   Cat,
   HomeState,
 } from 'types';
+import { UseStateValue } from 'provider';
+import Constants from 'constants';
 import './styles.scss';
 
 const { REACT_APP_SEARCH_LIMIT: LIMIT } = process.env;
@@ -43,7 +45,14 @@ const Home = (props: RouteComponentProps) => {
     ...initialState,
     breedList: [], // not included in initialState to prevent reset after selecting new breed
   });
+  const [{ alert }, dispatch] = UseStateValue();
+  /* trigger dispatch to toggle alert */
+  const triggerAlert = (value: boolean) => dispatch({
+    type: Constants.TOGGLE_ALERT,
+    payload: value,
+  });
 
+  /* reset states to initialState */
   const resetStates = () => setState((prevState: HomeState) => ({
     ...prevState,
     ...initialState,
@@ -57,8 +66,9 @@ const Home = (props: RouteComponentProps) => {
         ...prevState,
         breedList: breedResult.data.map(({ name, id }: Breed) => ({ name, id })),
       }));
+      triggerAlert(false);
     } catch (e) {
-      console.log(e);
+      triggerAlert(true);
     }
   };
 
@@ -100,8 +110,9 @@ const Home = (props: RouteComponentProps) => {
         hideLoadBtn: hideBtn,
         catList: listResult,
       }));
+      triggerAlert(false);
     } catch (e) {
-      console.log(e);
+      triggerAlert(true);
     }
   };
 

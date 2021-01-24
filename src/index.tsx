@@ -2,11 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.scss';
 import Navigations from 'navigations';
+import { InitialState, StateProvider } from 'provider';
+import Reducers from 'reducers';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Navigations />
+    <StateProvider initialState={InitialState} reducers={Reducers}>
+      <Navigations />
+    </StateProvider>
   </React.StrictMode>,
   document.getElementById('root'),
 );

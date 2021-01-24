@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { fetchCatById } from 'services/cat';
 import Card from 'components/card';
+import { UseStateValue } from 'provider';
+import Constants from 'constants';
 import {
   CatDetails,
 } from 'types';
@@ -9,6 +11,14 @@ import {
 const Details = (props: RouteComponentProps) => {
   const { match: { params: { id } } } = props;
   const [catDetails, setCatDetails] = useState<CatDetails>({});
+  const [{ alert }, dispatch] = UseStateValue();
+
+  /* trigger dispatch to toggle alert */
+  const triggerAlert = (value: boolean) => dispatch({
+    type: Constants.TOGGLE_ALERT,
+    payload: value,
+  });
+  /* fetch details for selected cat */
   const fetchCat = async () => {
     try {
       const { data } = await fetchCatById(id);
@@ -21,10 +31,12 @@ const Details = (props: RouteComponentProps) => {
         temperament: breed.temperament,
         description: breed.description,
       });
+      triggerAlert(false);
     } catch (e) {
-      console.log(e);
+      triggerAlert(true);
     }
   };
+
   useEffect(() => {
     fetchCat();
   }, []);

@@ -1,4 +1,6 @@
 /* eslint-disable no-tabs */
+import React, { Reducer } from 'react';
+import { RouteComponentProps } from 'react-router-dom';
 
 export interface Breed {
 	id: string
@@ -25,4 +27,14 @@ export interface CatDetails extends Cat {
   origin?: string
   temperament?: string
   description?: string
+}
+
+export interface ReducerState {
+  alert: boolean
+}
+
+export interface ProviderProps {
+  reducers: Reducer
+  initialState: ReducerState
+  children: React.ComponentType<RouteComponentProps>
 }
