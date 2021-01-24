@@ -19,3 +19,10 @@ export interface HomeState {
   isDisableLoad: boolean
   hideLoadBtn: boolean
 }
+
+export interface CatDetails extends Cat {
+  name?: string
+  origin?: string
+  temperament?: string
+  description?: string
+}

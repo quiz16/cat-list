@@ -30,6 +30,7 @@ const initialState = {
 };
 
 const Home = (props: RouteComponentProps) => {
+  const { location: { search: searchParams } } = props;
   const [{
     breedList,
     catList,
@@ -109,6 +110,13 @@ const Home = (props: RouteComponentProps) => {
     fetchBreedList();
   }, []);
 
+  useEffect(() => {
+    if (searchParams) {
+      const [, breedParam] = searchParams.split('?breed=');
+      setupSearchTrigger(breedParam);
+    }
+  }, [searchParams]);
+
   /* render option for list of breed */
   const renderBreedList = () => breedList.map(
     ({ name, id }: Breed) => (
@@ -119,13 +127,14 @@ const Home = (props: RouteComponentProps) => {
   /* render card for list of cats */
   const renderCatList = () => catList.map(
     (cat: Cat, index: number) => (
-      <Card key={index} {...cat} />
+      <Col md="3" sm="6" xs="12" key={index}>
+        <Card {...cat} />
+      </Col>
     ),
   );
 
-  /* capture changes from input/dropdown */
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
+  /* prepares states before searching */
+  const setupSearchTrigger = (value: string) => {
     resetStates();
     setState((prevState: HomeState) => ({
       ...prevState,
@@ -136,6 +145,11 @@ const Home = (props: RouteComponentProps) => {
       searchCats(value, 1, [], false);
     }
   };
+
+  /* capture changes from input/dropdown */
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => setupSearchTrigger(e.target.value);
 
   /* handle the button click load more */
   const loadMore = () => {
@@ -152,7 +166,7 @@ const Home = (props: RouteComponentProps) => {
       <h1>Cat Browser</h1>
       <Form.Group controlId="exampleForm.ControlSelect1">
         <Form.Label>Breed</Form.Label>
-        <Form.Control as="select" onChange={handleInputChange}>
+        <Form.Control as="select" onChange={handleInputChange} value={selectedBreed}>
           <option value="noop">Select breed</option>
           { renderBreedList() }
         </Form.Control>
